@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <!-- thymeleaf 문법: 1차주소값이 바뀌어도 인식하게 해준다. @{} 안에서 쿼리스트링은 (id=1, iuser='tt') 식으로 가능 -->
+    <title layout:title-pattern="$CONTENT_TITLE"></title>
+    <th:block layout:fragment="css"></th:block>
+    <th:block layout:fragment="script"></th:block>
+</head>
+<body>
+    <div id="container">
+        <th:block th:replace="commonHeader :: header"></th:block> <!-- th:replace="파일명 :: fragment 이름"-->
+        <th:block layout:fragment="content"></th:block>
+    </div>
+</body>
+</html>

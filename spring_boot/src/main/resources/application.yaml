@@ -1,0 +1,21 @@
+spring:
+  thymeleaf: # 뷰리졸버 중 하나 # 참고: cache 빼고는 다 디폴트라 안써도 됨
+    check-template-location: true # 템플릿 로케이션을 확인하라..?
+    prefix: classpath:templates/
+    suffix: .html
+    mode: HTML
+    cache: false
+  datasource:
+    url: jdbc:mysql://localhost:3308/facebook_clone
+    username: root
+    password: wncks335
+    driver-class-name: org.mariadb.jdbc.Driver
+
+mybatis:
+  mapper-locations: mybatis-mapper/**/*.xml # resources 폴더 아래에 mybatis-mapper 폴더 안에 폴더수 상관없이 xml파일은 전부
+  type-aliases-package: com.koreait.facebook_clone
+
+# 톰캣 포트 변경
+# 포트란?? 내컴퓨터가 아파트라면 포트는 하나의 호실.. 돌아가고 있는 어플리케이션의 주소
+server:
+  port: 8090

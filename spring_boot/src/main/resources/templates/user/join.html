@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="basicLayout">>
+
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/user/join.css}">
+</th:block>
+
+<th:block layout:fragment="content">
+    <h1>join</h1>
+    <form th:action="@{join}" method="post" th:object="${userEntity}">
+        <div><input type="email" th:field="*{email}" placeholder="email" autofocus required></div>
+        <!-- autofocus : 창 켜졌을때 여기 커서 위치, required : 값이 있어야한다. -->
+        <div><input type="password" th:field="*{pw}" placeholder="password"></div> <!-- js 로 정규식으로 제한 해주기 -->
+        <div><input type="text" th:field="*{nm}" placeholder="name"></div> <!-- 두글자 이상으로다가 -->
+        <div><input type="tel" th:field="*{tel}" placeholder="tel"></div>
+        <div><input type="submit" value="회원가입"></div>
+        <div><input type="reset" value="초기화"></div>
+    </form>
+</th:block>
+</html>
