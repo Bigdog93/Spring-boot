@@ -1,3 +1,5 @@
+# 스프링에서 어플리케이션 컨텍스트, 디스패쳐서블렛 설정해주는 것들 웬만하면 여기서 설정해주는데
+# 웬만한건 디폴트로 설정이 되어 있다.(mvc:annotation 등등)
 spring:
   thymeleaf: # 뷰리졸버 중 하나 # 참고: cache 빼고는 다 디폴트라 안써도 됨
     check-template-location: true # 템플릿 로케이션을 확인하라..?
@@ -5,17 +7,35 @@ spring:
     suffix: .html
     mode: HTML
     cache: false
-  datasource:
+  datasource: # 히카리는 기본 세팅으로 되어있기 때문에 이렇게만 해줘도 알아서 히카리로다가 거시기 해준다.
     url: jdbc:mysql://localhost:3308/facebook_clone
     username: root
     password: wncks335
     driver-class-name: org.mariadb.jdbc.Driver
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
-mybatis:
+
+  devtools:
+    livereload:
+      enabled: true
+
+mybatis: # mybatis 도 두줄만 ㅎㅎ
   mapper-locations: mybatis-mapper/**/*.xml # resources 폴더 아래에 mybatis-mapper 폴더 안에 폴더수 상관없이 xml파일은 전부
-  type-aliases-package: com.koreait.facebook_clone
+  type-aliases-package: com.koreait.facebook_clone # parameter type 또는 Result Type 에 클래스명만 적으면 이 경로 아래에서 그 클래스(게터세터 있는)를 찾아준다.
 
 # 톰캣 포트 변경
 # 포트란?? 내컴퓨터가 아파트라면 포트는 하나의 호실.. 돌아가고 있는 어플리케이션의 주소
 server:
-  port: 8090
+  port: 8090 # 생략하면 8080 기본. 8080을 쓰는 어플이 많아 충돌을 염려하여 바꿔준 것
+
+# mail sender 설정

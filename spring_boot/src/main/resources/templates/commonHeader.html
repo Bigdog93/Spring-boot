@@ -5,8 +5,8 @@
 <header th:fragment="header"> <!-- 이름 주기. 나중에 얘만 갖다가 쓸 수 있다. -->
   <nav>
     <ul>
-      <li>로그인</li>
-      <li>로그아웃</li>
+      <li><a th:href="@{login}">로그인</a></li>
+      <li><a th:href="@{logout}">로그아웃</a></li>
     </ul>
   </nav>
 </header>
