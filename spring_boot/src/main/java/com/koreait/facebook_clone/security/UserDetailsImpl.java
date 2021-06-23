@@ -24,6 +24,8 @@ public class UserDetailsImpl implements UserDetails {
         return null;
     }
 
+    public String getNm() { return user.getNm(); }
+
     @Override
     public String getPassword() {
         return user.getPw();

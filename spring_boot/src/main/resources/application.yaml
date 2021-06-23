@@ -12,6 +12,11 @@ spring:
     username: root
     password: wncks335
     driver-class-name: org.mariadb.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 30MB
+      location: C:\SpringRes\facebookClone
   mail:
     host: smtp.gmail.com
     port: 587

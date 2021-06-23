@@ -2,12 +2,11 @@ package com.koreait.facebook_clone.user;
 
 import com.koreait.facebook_clone.common.mailsender.EmailServiceImpl;
 import com.koreait.facebook_clone.common.security.MySecurityUtils;
-import com.koreait.facebook_clone.user.model.UserDomain;
 import com.koreait.facebook_clone.user.model.UserEntity;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService {
@@ -58,4 +57,8 @@ public class UserService {
         }
         return "";
     }*/
+
+    public void profileImg(MultipartFile[] imgArr) {
+
+    }
 }
