@@ -15,15 +15,14 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username:
-    password:
+    username: sleepydog931025
+    password: zdsgdvtztaeigtbf
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-
 
   devtools:
     livereload:

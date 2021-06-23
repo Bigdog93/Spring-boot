@@ -10,7 +10,23 @@
     </th:block>
 
     <section layout:fragment="content">
+        <div th:if="${param.auth != null and param.auth[0] == '1'}">인증되었습니다.</div> <!-- 주소창에 있는 파라미터 받는 법 1 , 배열로 날아올 수 있기 때문에 저렇게 해줘야 한다. -->
+        <div th:if="${param.auth != null && param.auth[0] == '0'}">인증에 실패했습니다.</div> <!-- th:text 안에는 공백 불가, th:unless 는 그 조건이 '아닐 때' -->
+        <div th:if="${param.needEmail != null and param.needEmail[0] == '1'}">이메일 인증해주세요</div>
+        <div th:if="${param.error}">로그인에 실패하였습니다.</div>
+        <!--
+        <div th:if="${#request.getParameter('auth') == '1'}" th:text="authauth"></div>
+        --> <!-- 주소창에 있는 파라미터 받는 법 2 -->
         <h1>Login</h1>
+        <form th:action="@{login}" method="post" th:object="${userEntity}">
+            <div>
+                <input type="email" th:field="*{email}" placeholder="email" autofocus required>
+            </div>
+            <div>
+                <input type="password" th:field="*{pw}" placeholder="password" required>
+            </div>
+            <div><input type="submit" value="login"></div>
+        </form>
         <div>
             <a th:href="@{join}">회원가입</a>
         </div>

@@ -1,4 +1,4 @@
-package com.koreait.facebook_clone.mailsender;
+package com.koreait.facebook_clone.common.mailsender;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;

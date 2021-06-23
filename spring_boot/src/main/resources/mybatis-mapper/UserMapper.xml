@@ -5,8 +5,19 @@
 <mapper namespace="com.koreait.facebook_clone.user.UserMapper">
     <insert id="join">
         INSERT INTO t_user
-        (email, pw, nm, tel)
+        (email, pw, nm, tel, authCd)
         VALUES
-        (#{email}, #{pw}, #{nm}, #{tel})
+        (#{email}, #{pw}, #{nm}, #{tel}, #{authCd})
     </insert>
+    <update id="auth">
+        UPDATE t_user
+        SET authCd = null
+        WHERE email = #{email} AND authCd = #{authCd}
+    </update>
+
+    <select id="selUser" resultType="UserDomain">
+        SELECT *
+        FROM t_user
+        WHERE email = #{email} AND authCd IS NULL
+    </select>
 </mapper>

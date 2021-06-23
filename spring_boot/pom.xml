@@ -13,9 +13,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>facebook_clone</name>
     <description>Demo project for Spring Boot</description>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,6 +63,8 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- 타임리프 -->
         <!-- https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
@@ -81,12 +85,26 @@
             <version>5.3.8</version>
         </dependency>--> <!-- 얘는 스프링 4 -->
 
+        <!-- 메일 보내기 -->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>2.5.1</version>
         </dependency>
+
+        <!-- 스프링 시큐리티 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- 타임리프에서 시큐리티 쓰기 -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+        </dependency>
+
 
 
 
