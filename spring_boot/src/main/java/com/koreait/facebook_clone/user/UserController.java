@@ -1,10 +1,21 @@
 package com.koreait.facebook_clone.user;
 
+import com.koreait.facebook_clone.common.MyConst;
+import com.koreait.facebook_clone.security.UserDetailsImpl;
+import com.koreait.facebook_clone.user.model.UserDomain;
 import com.koreait.facebook_clone.user.model.UserEntity;
+import com.koreait.facebook_clone.user.model.UserProfileEntity;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -12,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private MyConst myConst;
 
     @GetMapping("/login")
     public void login(UserEntity userEntity) {}
@@ -39,12 +53,21 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public void profile() {}
+    public void profile(Model model, UserEntity param, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        UserEntity loginUser = userDetails.getUser();
+        model.addAttribute(myConst.PROFILE_LIST, service.selUserProfileImgs(loginUser));
+    }
 
     @PostMapping("/profileImg")
-    public String profileImg(MultipartFile[] img) {
-        service.profileImg(img);
+    public String profileImg(MultipartFile[] imgArr) { // 폼 태그안 인풋 type=file 안에 있던 애들. name 과 변수명을 맞춰줘야 한다.
+        service.profileImg(imgArr);
         return "redirect:/user/profile";
+    }
+
+    @ResponseBody
+    @GetMapping("/mainProfile")
+    public Map<String, Object> mainProfile(UserProfileEntity param) {
+        return service.updUserMainProfile(param);
     }
 
 }

@@ -3,5 +3,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.koreait.facebook_clone.feed.FeedMapper">
+    <insert id="insFeed">
+        INSERT INTO t_feed
+        (iuser, location, ctnt)
+        VALUES
+        (${iuser}, #{location}, #{ctnt})
+    </insert>
 
+    <insert id="insFeedImg">
+        INSERT INTO t_feed_img
+        (ifeed, img)
+        VALUES
+        (${ifeed}, #{img})
+    </insert>
 </mapper>

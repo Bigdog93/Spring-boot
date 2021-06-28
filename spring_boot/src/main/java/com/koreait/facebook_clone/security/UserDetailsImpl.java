@@ -2,6 +2,7 @@ package com.koreait.facebook_clone.security;
 
 import com.koreait.facebook_clone.user.model.UserDomain;
 import com.koreait.facebook_clone.user.model.UserEntity;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,12 +12,15 @@ import java.util.List;
 
 
 public class UserDetailsImpl implements UserDetails {
+    // 시큐리티에 저장하기 전에 얘를 생성할 꺼.
 
-    private UserEntity user;
+    @Getter
+    private UserDomain user;
 
     public UserDetailsImpl(UserDomain user) {
         this.user = user;
-    }
+    } // 무조건 UserEntity 주소값을 이용해 객체 생성
+    // 생성자를 통해 위에 UserDomain 타입에 생성.
 
     @Override // 권한 설정
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -24,7 +28,12 @@ public class UserDetailsImpl implements UserDetails {
         return null;
     }
 
-    public String getNm() { return user.getNm(); }
+//    public String getNm() { return user.getNm(); }
+
+//    public UserDomain getUser() {
+//        return this.user;
+//    }
+
 
     @Override
     public String getPassword() {

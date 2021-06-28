@@ -11,4 +11,5 @@ public class UserEntity {
     private String tel;
     private String authCd;
     private String regdt;
+    private String mainProfile;
 }

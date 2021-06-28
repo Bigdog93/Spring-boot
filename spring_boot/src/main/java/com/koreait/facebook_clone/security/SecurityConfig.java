@@ -19,19 +19,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity // 시큐리티 적용
 //@EnableGlobalMethodSecurity(securedEnabled = true) // 얘는 각 메소드에서 권한 검사 시행할 수 있게 해주는
 //@RequiredArgsConstructor // 롬복꺼. Autowired 없이 final 로만 주소값 가져오는. (생성자로 가져온데)
+//스프링에 접근하기 전에 얘를 거친다. (필터영역)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {// 브라우저 킬때 한번 실행된다.
+    // WebSecurityConfigurerAdapter 의 메소드를 오버라이딩 하여 쓰기 위해..
+    // 그럼 스프링에서 @Configuration 어노테이션을 보고 SecurityConfig 의 오버라이딩 된 메소드로다가 실행해준다.(@EnableWebSecurity 를 줘야 시큐리티가 켜진다)
 
     @Autowired
     private UserDetailsService userDetails; // 세션처럼 브라우저 킬때마다.
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
+    @Bean // 메소드에 빈 등록하면 리턴하는 값이 빈 등록이 된다. 외부(라이브러리 등)에서 만든 애들은 이렇게 빈 등록 할 수 있다.
+    public PasswordEncoder passwordEncoder() { // PasswordEncoder(인터페이스) 타입의 객체를 리턴하는 메소드(리턴값이 빈 등록)
         return new BCryptPasswordEncoder(); // 스프링에 내장 되어 있는 BCrypt
-    }
+    } // 시큐리티에게 너 암호화할때는 BCrypt 를 쓰라고 빈 세팅 해주는 것.
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**").antMatchers("/favicon.ico", "/resources/**", "/error");
+        web.ignoring().antMatchers("/content/**", "/img/**", "/css/**", "/js/**", "/img/**", "/pic/**")
+                .antMatchers("/favicon.ico", "/resources/**", "/error");
         // 주소값이 얘네로 시작하는 애들은 시큐리티가 무시한다.
         // favicon.ico 는 브라우저 title 옆에 아이콘이다.
     }
@@ -41,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {// 브라우�
         security.csrf().disable(); // csrf(요청 위조) 무력화
 
         security.authorizeRequests()
-                .antMatchers("/user/login", "/user/join").permitAll()// 얘네는 누구나 들어갈 수 있도록
+                .antMatchers("/user/login", "/user/join", "/user/auth").permitAll()// 얘네는 누구나 들어갈 수 있도록
                 .anyRequest().authenticated(); // 위 외의 주소는 모두 인증을 받아야 한다.
 
         security.formLogin() // 로그인 했을때

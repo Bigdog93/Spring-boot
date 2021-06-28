@@ -23,6 +23,10 @@ nav {
 ul, ol, li {
     list-style: none;
 }
+#container {
+    margin-top: 80px;
+    padding: 30px;
+}
 
 .header__left {
     display: flex;
@@ -53,13 +57,24 @@ ul, ol, li {
     flex-grow: 1;
 }
 
-.header nav .header__left a.logo {
-    background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUxMiA1MTIiIGhlaWdodD0iNTEycHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxsaW5lYXJHcmFkaWVudCBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIC00MS42NiAzNDkuMDQpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgaWQ9IlNWR0lEXzFfIiB4MT0iOTcuNDQxOSIgeDI9IjUxMy4xODI3IiB5MT0iMjkzLjI1ODUiIHkyPSItMTIyLjQ4MTciPjxzdG9wIG9mZnNldD0iMCIgc3R5bGU9InN0b3AtY29sb3I6IzNCNTk5OCIvPjxzdG9wIG9mZnNldD0iMSIgc3R5bGU9InN0b3AtY29sb3I6IzMzNjY5OSIvPjwvbGluZWFyR3JhZGllbnQ+PHBhdGggZD0iTTM0OC40OSwzNS41MTFIMTYzLjUxMmMtNzAuNjkyLDAtMTI4LDU3LjMwNy0xMjgsMTI4djE4NC45NzhjMCw3MC42OTMsNTcuMzA4LDEyOCwxMjgsMTI4aDk3LjA5MSAgdi0xNjMuOTZoLTU1LjU0MnYtNjkuNDI4aDU1LjU0MnYtNDEuNjU3YzAtNTcuMTk0LDMyLjI4NC05Ny4xOTksODMuMzEzLTk3LjE5OWMyNC40MzgsMCw0MS42NTYsMCw1NS41NDIsMHY2OS40MjhoLTI3Ljc3MSAgYy0yNy43NDMsMC00MS42NTcsMTMuODg1LTQxLjY1Nyw0MS42NTd2MjcuNzcxaDY5LjQyOGwtMTMuODg2LDY5LjQyOGgtNTUuNTQydjE2My45NmgxOC40NTljNzAuNjkzLDAsMTI4LTU3LjMwNywxMjgtMTI4VjE2My41MTEgIEM0NzYuNDksOTIuODE5LDQxOS4xODMsMzUuNTExLDM0OC40OSwzNS41MTF6IiBmaWxsPSJ1cmwoI1NWR0lEXzFfKSIvPjwvc3ZnPg==");
-    width: 20px;
-    height: 20px;
+.modal {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100; /* 우선순위 높을수록 위로 올라온다. */
+    background-color: rgba(0, 0, 0, 0.73);
 }
-
-#container {
-    margin-top: 80px;
-    padding: 30px;
+.modal_close_parent { display: flex; justify-content: flex-end; padding: 40px 60px; }
+.modal_close { color: white; font-size: 50px; }
+.profile { border-radius: 50%; }
+.hide { display: none }
+.pointer { cursor: pointer; }
+.w40 { width: 40px; }
+.w200 { width: 200px; }
+.w300 { width: 300px; }
+.no-main-profile {
+    font-size: 30px;
+    color: white;
 }

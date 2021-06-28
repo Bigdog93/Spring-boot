@@ -6,6 +6,7 @@ CREATE TABLE t_user(
    pw VARCHAR(100) NOT NULL,
    nm VARCHAR(10) NOT NULL,
    authCd CHAR(5) COMMENT '회원가입 인증코드 null이면 인증받은 상태, 값이 있으면 인증해야 되는 상태',
+   mainProfile VARCHAR(50),
    regdt DATETIME DEFAULT NOW(),
    tel CHAR(13),
    INDEX idx_auth_cd (`authCd`)
@@ -14,3 +15,27 @@ CREATE TABLE t_user(
 # auth_cd 인덱스 생성
 CREATE INDEX idx_auth_cd ON t_user (authCd);
 
+# 프로필 이미지 테이블 생성
+CREATE TABLE t_user_profile(
+   iprofile INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+   iuser INT UNSIGNED,
+   img VARCHAR(50),
+   regdt DATETIME DEFAULT NOW(),
+   FOREIGN KEY (iuser) REFERENCES t_user(iuser)
+);
+
+CREATE TABLE t_feed(
+   ifeed INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+   iuser INT UNSIGNED NOT NULL ,
+   location VARCHAR(20),
+   ctnt TEXT, /* TEXT 타입은 길이제한이 없다!! */
+   regdt DATETIME DEFAULT NOW(),
+   FOREIGN KEY (iuser) REFERENCES t_user (iuser)
+);
+
+CREATE TABLE t_feed_img(
+   ifeedImg INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+   ifeed INT UNSIGNED NOT NULL,
+   img VARCHAR(50) NOT NULL,
+   FOREIGN KEY (ifeed) REFERENCES t_feed (ifeed)
+);

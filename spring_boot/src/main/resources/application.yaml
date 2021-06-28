@@ -1,6 +1,10 @@
 # 스프링에서 어플리케이션 컨텍스트, 디스패쳐서블렛 설정해주는 것들 웬만하면 여기서 설정해주는데
 # 웬만한건 디폴트로 설정이 되어 있다.(mvc:annotation 등등)
 spring:
+#  mvc:
+#    static-path-pattern: /content/**
+#  static 폴더로 가는 주소값 설정, 없으면 그냥 static 아래 폴더명으로 주소값 연결
+#  그럼에도 불구, 컨트롤러가 더 빨라. 컨트롤러에 동명의 핸들러가 있으면 그쪽으로 연결됨.
   thymeleaf: # 뷰리졸버 중 하나 # 참고: cache 빼고는 다 디폴트라 안써도 됨
     check-template-location: true # 템플릿 로케이션을 확인하라..?
     prefix: classpath:templates/

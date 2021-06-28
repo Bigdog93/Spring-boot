@@ -15,9 +15,41 @@
         WHERE email = #{email} AND authCd = #{authCd}
     </update>
 
+    <update id="updUserProfile">
+        UPDATE t_user
+        <set>
+            <if test="mainProfile != null and mainProfile != '' ">
+                mainProfile = #{mainProfile}
+            </if>
+            <if test="pw != null and pw != '' ">
+                pw = #{pw}
+            </if>
+            <if test="nm != null and nm != '' ">
+                nm = #{nm}
+            </if>
+            <if test="tel != null and tel != '' ">
+                tel = #{tel}
+            </if>
+        </set>
+        WHERE iuser = #{iuser}
+    </update>
+
     <select id="selUser" resultType="UserDomain">
         SELECT *
         FROM t_user
         WHERE email = #{email} AND authCd IS NULL
     </select>
+
+    <update id="updUserMainProfile">
+        UPDATE t_user A
+        INNER JOIN t_user_profile B
+        ON A.iuser = B.iuser
+        AND B.iprofile = ${iprofile}
+        SET A.mainProfile = B.img
+        WHERE A.iuser = ${iuser}
+        <selectKey order="AFTER" resultType="String" keyColumn="mainProfile" keyProperty="img"> /* 쿼리문 실행 후(전) 관련 데이터 셀렉트 바로 하기 */
+         /* 업데이트 하고 나서 keyColumn 값을 keyProperty 에 담아라(파라미터로 넘어온 애의 멤버변수(keyProperty)에 바로 담아줌 */
+            SELECT mainProfile FROM t_user WHERE iuser = ${iuser}
+        </selectKey>
+    </update>
 </mapper>

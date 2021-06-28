@@ -5,6 +5,10 @@
     layout:decorator="basicLayout"> <!-- 얘를 부모로 쓴다. 라는 뜻으로 보면 될듯. 경로는 templates 기준이다. -->
     <!-- 타일즈는 템플릿(레이아웃) 기준이다.(템플릿을 열고 안에 내용물을 임포트하는 방식)
         타임리프는 열고자 하는 파일을 기준으로 템플릿은 decorator 로써 불러오는 방식 -->
+<head>
+    <title>로그인</title>
+</head>
+
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/user/login.css}">
     </th:block>

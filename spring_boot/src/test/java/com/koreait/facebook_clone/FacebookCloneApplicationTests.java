@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -32,6 +34,16 @@ class FacebookCloneApplicationTests {
         System.out.println("val : " + val);
         System.out.println("val2 : " + val2);
 
+    }
+
+    @Test
+    void test() {
+        PrintStream out = System.out;
+        if(out == null) {
+            System.out.println("out(null) : " + out);
+        }else {
+            System.out.println("out : " + out);
+        }
     }
 
 }

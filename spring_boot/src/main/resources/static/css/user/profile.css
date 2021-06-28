@@ -1,0 +1,14 @@
+#flexContainer {
+    width: 100%; height: 300px;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.swiper-container {
+    width: 90vw;
+    height: 40vw;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+}
