@@ -52,7 +52,6 @@ function changeMainProfile(iprofile) {
         })
 }
 
-pw
 function setMainProfileIcon(iprofile) {
     profileImgParentList.forEach(item => {
         item.innerHTML = '';
@@ -78,3 +77,8 @@ modalCloseElem.addEventListener('click', () => {
     modalElem.classList.add('hide');
     // location.reload(); // 쉬운 방법
 })
+feedObj.containerElem = document.querySelector('#feedContainer');
+feedObj.loadingElem = document.querySelector('.loading');
+feedObj.url = '/user/feedList';
+feedObj.setScrollInfinity(window);
+feedObj.getFeedList(1);

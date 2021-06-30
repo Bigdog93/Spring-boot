@@ -20,9 +20,13 @@
             <div class="hide"><input id="imgArr" type="file" name="imgArr" multiple accept="image/*"> </div>
         </div>
     </form>-->
-    <div><textarea id="ctnt" placeholder="지금 무슨 생각을 하고 계신가요?"></textarea></div>
-    <div><input type="file" id="selectImgArr" multiple accept="image/*"></div>
-    <div><input id="btnUpload" type="button" value="submit" disabled></div>
+    <div th:object="${feedEntity}">
+        <div><textarea th:field="*{ctnt}" placeholder="지금 무슨 생각을 하고 계신가요?"></textarea></div>
+        <div><input type="text" th:field="*{location}" placeholder="location"></div>
+        <div><input type="file" id="selectImgArr" multiple accept="image/*"></div>
+        <!-- fileList[] 에 파일을 추가. 에이잭스로 fileList[] 를 보낸다. -->
+        <div><input id="btnUpload" type="button" value="submit" disabled></div>
+    </div>
     <div id="displayImgsList"></div>
 </th:block>
 

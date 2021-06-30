@@ -3,9 +3,24 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="basicLayout">
+<!-- 원래는 가중치 라는걸 만들어야 하는데 너무 빡세서 안함 -->
 
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/feed/home.css}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+</th:block>
+<th:block layout:fragment="js">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script defer th:src="@{/js/infiniteScroll.js}"></script>
+    <script defer th:src="@{/js/feed/home2.js}"></script>
+</th:block>
 
 <th:block layout:fragment="content">
-    <h1>Feed</h1>
+    <section>
+        <div id="feedContainer"></div>
+        <div class="loading hide">
+            <img th:src="@{/img/loading.gif}">
+        </div>
+    </section>
 </th:block>
 </html>

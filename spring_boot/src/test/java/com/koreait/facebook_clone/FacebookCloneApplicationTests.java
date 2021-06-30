@@ -2,6 +2,8 @@ package com.koreait.facebook_clone;
 
 import com.koreait.facebook_clone.common.mailsender.EmailService;
 import com.koreait.facebook_clone.common.security.MySecurityUtils;
+import com.koreait.facebook_clone.feed.FeedMapper;
+import com.koreait.facebook_clone.feed.model.FeedEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,30 +22,17 @@ class FacebookCloneApplicationTests {
     @Autowired
     private MySecurityUtils securityUtils;
 
+    @Autowired
+    private FeedMapper feedMapper;
+
     @Test
     void getRandVal() {
-        int len = 5;
-        String val = securityUtils.getRandomCode(len);
-        assertEquals(val.length(), len);
+        FeedEntity param = new FeedEntity();
+        param.setCtnt("ii");
+        param.setIuser(3);
+        int result = feedMapper.insFeed(param);
+        System.out.println(param);
 
-        String val2 = securityUtils.getRandomCode(len);
-        assertEquals(val2.length(), len);
-
-        assertNotEquals(val, val2);
-
-        System.out.println("val : " + val);
-        System.out.println("val2 : " + val2);
-
-    }
-
-    @Test
-    void test() {
-        PrintStream out = System.out;
-        if(out == null) {
-            System.out.println("out(null) : " + out);
-        }else {
-            System.out.println("out : " + out);
-        }
     }
 
 }

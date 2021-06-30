@@ -2,6 +2,10 @@ package com.koreait.facebook_clone.user.model;
 
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 @Data
 public class UserEntity {
     private int iuser;

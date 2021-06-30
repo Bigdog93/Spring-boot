@@ -1,6 +1,8 @@
 package com.koreait.facebook_clone.user;
 
 import com.koreait.facebook_clone.common.MyConst;
+import com.koreait.facebook_clone.feed.model.FeedDTO;
+import com.koreait.facebook_clone.feed.model.FeedDomain2;
 import com.koreait.facebook_clone.security.UserDetailsImpl;
 import com.koreait.facebook_clone.user.model.UserDomain;
 import com.koreait.facebook_clone.user.model.UserEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -70,4 +73,9 @@ public class UserController {
         return service.updUserMainProfile(param);
     }
 
+    @ResponseBody
+    @GetMapping("/feedList")
+    public List<FeedDomain2> selFeed2(FeedDTO param) {
+        return service.selFeedList2(param);
+    }
 }

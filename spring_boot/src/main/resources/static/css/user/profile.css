@@ -3,12 +3,13 @@
     display: flex; justify-content: center; align-items: center;
 }
 
-.swiper-container {
+.profile_modal .swiper-container {
     width: 90vw;
     height: 40vw;
 }
 
-.swiper-slide {
+.profile_modal .swiper-slide {
     display: flex;
     justify-content: center;
 }
+section {display: flex; justify-content: center;}

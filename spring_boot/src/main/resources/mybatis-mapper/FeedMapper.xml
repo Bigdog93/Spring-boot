@@ -3,7 +3,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.koreait.facebook_clone.feed.FeedMapper">
-    <insert id="insFeed">
+    <resultMap id="FeedDomainMap" type="FeedDomain2"> <!-- FeedDomain2 클래스를 이용하겠당 -->
+        <result property="ifeed" column="ifeed"/> <!-- ifeed 컬럼값을 ifeed 멤버필드에 저장 이름 맞춰주면 안적어줘도 됨, 근데 얘는 적어줘야 함..? -->
+        <collection property="imgList" column="ifeed" javaType="ArrayList" ofType="FeedImgEntity"
+                    select="selFeedImgList"/>
+        <!-- FeedDomain2 에 있는 imgList 는 컬렉션으로 저장하겠다. ifeed 컬럼을 기준으로. ArrayList 타입으로 저장 FeedImgEntity 타입으로 리스트
+            selFeedImgList 라는 id 의 셀렉트 문을 실행한다. -->
+    </resultMap>
+
+    <insert id="insFeed" useGeneratedKeys="true" keyProperty="ifeed">
         INSERT INTO t_feed
         (iuser, location, ctnt)
         VALUES
@@ -16,4 +24,29 @@
         VALUES
         (${ifeed}, #{img})
     </insert>
+
+    <select id="selFeedList" resultType="FeedDomain">
+        SELECT A.ifeed, A.iuser, A.ctnt, A.location, A.regdt, B.ifeedImg, B.img, C.nm AS writer, C.mainProfile
+        FROM t_feed A
+        LEFT JOIN t_feed_img B
+        ON A.ifeed = B.ifeed
+        INNER JOIN t_user C ON A.iuser = C.iuser
+        ORDER BY A.ifeed DESC;
+    </select>
+
+    <select id="selFeedList2" resultMap="FeedDomainMap">
+        SELECT A.ifeed, A.iuser, A.ctnt, A.location, A.regdt, C.nm AS writer, C.mainProfile
+        FROM t_feed A
+        INNER JOIN t_user C ON A.iuser = C.iuser
+        <if test="iuser > 0">
+            AND C.iuser = ${iuser}
+        </if>
+        ORDER BY A.ifeed DESC
+        LIMIT #{startIdx}, #{limit}
+    </select>
+
+    <select id="selFeedImgList" resultType="FeedImgEntity">
+        SELECT ifeedImg, ifeed, img FROM t_feed_img
+        WHERE ifeed = #{ifeed}
+    </select>
 </mapper>

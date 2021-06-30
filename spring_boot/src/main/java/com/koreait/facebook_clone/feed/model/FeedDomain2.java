@@ -2,10 +2,11 @@ package com.koreait.facebook_clone.feed.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class FeedDomain extends FeedEntity{
+public class FeedDomain2 extends FeedEntity{
     private String writer;
     private String mainProfile;
-    private int ifeedImg;
-    private String img;
+    private List<FeedImgEntity> imgList;
 }

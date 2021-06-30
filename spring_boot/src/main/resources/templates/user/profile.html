@@ -13,6 +13,7 @@
 <!-- https://swiperjs.com/get-started -->
 <th:block layout:fragment="js">
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script defer th:src="@{/js/infiniteScroll.js}"></script>
     <script defer th:src="@{/js/user/profile.js}"></script>
 </th:block>
 
@@ -47,6 +48,13 @@
                 </table>
             </div>
         </div>
+
+        <section>
+            <div id="feedContainer"></div>
+            <div class="loading hide">
+                <img th:src="@{/img/loading.gif}">
+            </div>
+        </section>
 
         <div id="profile_modal" class="modal hide">
             <div class="modal_close_parent"><i id="profile_modal_close" class="modal_close pointer far fa-window-close"></i></div>
@@ -85,7 +93,7 @@
 
 
     <script type="module">
-        const swiper = new Swiper('.swiper-container', {
+        const swiper = new Swiper('.profile_modal .swiper-container', {
             // Optional parameters
             direction: 'horizontal', // 방향
             loop: false,

@@ -3,6 +3,9 @@ package com.koreait.facebook_clone.user;
 import com.koreait.facebook_clone.common.file.MyFileUtils;
 import com.koreait.facebook_clone.common.mailsender.EmailServiceImpl;
 import com.koreait.facebook_clone.common.security.MySecurityUtils;
+import com.koreait.facebook_clone.feed.FeedMapper;
+import com.koreait.facebook_clone.feed.model.FeedDTO;
+import com.koreait.facebook_clone.feed.model.FeedDomain2;
 import com.koreait.facebook_clone.security.IAuthenticationFacade;
 import com.koreait.facebook_clone.user.model.UserDomain;
 import com.koreait.facebook_clone.user.model.UserEntity;
@@ -22,29 +25,16 @@ import java.util.concurrent.RecursiveTask;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserMapper mapper;
-
-    @Autowired
-    private UserProfileMapper profileMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private MySecurityUtils securityUtils;
-
-    @Autowired
-    private EmailServiceImpl emailService;
-
+    @Autowired private UserMapper mapper;
+    @Autowired private UserProfileMapper profileMapper;
+    @Autowired private UserMapper userMapper;
+    @Autowired private MySecurityUtils securityUtils;
+    @Autowired private EmailServiceImpl emailService;
     @Autowired // @Bean 이 있었기 때문에 가능
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private MyFileUtils fileUtils;
-
-    @Autowired
-    private IAuthenticationFacade auth;
+    @Autowired private MyFileUtils fileUtils;
+    @Autowired private IAuthenticationFacade auth;
+    @Autowired private FeedMapper feedMapper;
 
     public int join(UserEntity param) {
         String authCd = securityUtils.getRandomCode(5);
@@ -124,5 +114,10 @@ public class UserService {
         res.put("result", result);
         res.put("img", param.getImg());
         return res;
+    }
+
+    public List<FeedDomain2> selFeedList2(FeedDTO param) {
+        param.setIuser(auth.getLoginUserPk());
+        return feedMapper.selFeedList2(param);
     }
 }
