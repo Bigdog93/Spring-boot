@@ -1,14 +1,12 @@
 package com.koreait.facebook_clone;
 
 import com.koreait.facebook_clone.common.mailsender.EmailService;
-import com.koreait.facebook_clone.common.security.MySecurityUtils;
+import com.koreait.facebook_clone.common.auth.RandomCodeGenerator;
 import com.koreait.facebook_clone.feed.FeedMapper;
 import com.koreait.facebook_clone.feed.model.FeedEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -20,7 +18,7 @@ class FacebookCloneApplicationTests {
     private EmailService emailService;
 
     @Autowired
-    private MySecurityUtils securityUtils;
+    private RandomCodeGenerator securityUtils;
 
     @Autowired
     private FeedMapper feedMapper;

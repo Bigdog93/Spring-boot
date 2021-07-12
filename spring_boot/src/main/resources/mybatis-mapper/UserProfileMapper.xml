@@ -10,6 +10,16 @@
         (#{iuser}, #{img})
     </insert>
 
+    <select id="selUserProfile" resultType="UserDomain">
+        SELECT A.iuser, A.mainProfile, A.regdt, A.nm, A.email, A.tel
+             , (SELECT COUNT(ifeed) FROM t_feed WHERE iuser = ${toIuser}) AS cntFeed
+             , (SELECT COUNT(iuserFrom) FROM t_user_follow WHERE iuserFrom = ${toIuser}) AS cntFollow
+             , (SELECT COUNT(iuserTo) From t_user_follow WHERE iuserTo = ${toIuser}) AS cntFollower
+              , (SELECT COUNT(iuserFrom) FROM t_user_follow WHERE iuserFrom = ${toIuser} AND iuserTo = ${fromIuser}) AS isYouFollowMe
+              , (SELECT COUNT(iuserFrom) FROM t_user_follow WHERE iuserFrom = ${fromIuser} AND iuserTo = ${toIuser}) AS isMeFollowYou
+        FROM t_user A
+        WHERE A.iuser = ${toIuser}
+    </select>
 
     <select id="selUserProfileList" resultType="UserProfileEntity">
         SELECT iprofile, img

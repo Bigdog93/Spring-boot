@@ -1,14 +1,11 @@
 package com.koreait.facebook_clone.security;
 
 import com.koreait.facebook_clone.user.model.UserDomain;
-import com.koreait.facebook_clone.user.model.UserEntity;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 
 public class UserDetailsImpl implements UserDetails {

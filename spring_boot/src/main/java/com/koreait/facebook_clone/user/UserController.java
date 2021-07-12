@@ -4,10 +4,10 @@ import com.koreait.facebook_clone.common.MyConst;
 import com.koreait.facebook_clone.feed.model.FeedDTO;
 import com.koreait.facebook_clone.feed.model.FeedDomain2;
 import com.koreait.facebook_clone.security.UserDetailsImpl;
-import com.koreait.facebook_clone.user.model.UserDomain;
+import com.koreait.facebook_clone.user.model.UserDTO;
 import com.koreait.facebook_clone.user.model.UserEntity;
+import com.koreait.facebook_clone.user.model.UserFollowEntity;
 import com.koreait.facebook_clone.user.model.UserProfileEntity;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,8 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,9 +54,14 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public void profile(Model model, UserEntity param, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        UserEntity loginUser = userDetails.getUser();
-        model.addAttribute(myConst.PROFILE_LIST, service.selUserProfileImgs(loginUser));
+    public void profile(Model model, UserEntity param, UserDTO param2, @AuthenticationPrincipal UserDetailsImpl userDetails) { // 컨트롤러단에서 시큐리티에서 로그인 정보 얻어오는 방법
+        if(param.getIuser() == 0) {
+            param.setIuser(userDetails.getUser().getIuser());
+        }
+        param2.setToIuser(param.getIuser());
+
+        model.addAttribute(myConst.PROFILE, service.selUserProfile(param2));
+        model.addAttribute(myConst.PROFILE_LIST, service.selUserProfileImgs(param));
     }
 
     @PostMapping("/profileImg")
@@ -77,5 +80,17 @@ public class UserController {
     @GetMapping("/feedList")
     public List<FeedDomain2> selFeed2(FeedDTO param) {
         return service.selFeedList2(param);
+    }
+
+    @ResponseBody
+    @PostMapping("/follow")
+    public Map<String, Object> doFollow(@RequestBody UserFollowEntity param) {
+        return service.insUserFollow(param);
+    }
+
+    @ResponseBody
+    @DeleteMapping("/follow")
+    public Map<String, Object> undoFollow(UserFollowEntity param) {
+        return service.delUserFollow(param);
     }
 }

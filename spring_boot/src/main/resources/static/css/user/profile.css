@@ -1,15 +1,19 @@
 #flexContainer {
-    width: 100%; height: 300px;
+    width: 100%; height: 100%;
     display: flex; justify-content: center; align-items: center;
+    margin-bottom: 15px;
 }
 
-.profile_modal .swiper-container {
-    width: 90vw;
+#profile_modal .swiper-container {
+    width: 80vw;
     height: 40vw;
 }
 
-.profile_modal .swiper-slide {
+#profile_modal .swiper-slide {
     display: flex;
     justify-content: center;
 }
 section {display: flex; justify-content: center;}
+
+.instaBtn { background-color: white; border-color: #7f7e7e; border-radius: 2px; color: #7f7e7e;}
+.instaBtnEnable { background-color: #0095f6; border-color: #0095f6; border-radius: 2px; color: white;}

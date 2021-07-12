@@ -1,10 +1,10 @@
-package com.koreait.facebook_clone.common.security;
+package com.koreait.facebook_clone.common.auth;
 
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class MySecurityUtils {
+public class RandomCodeGenerator {
 
     public int getRandomInteger(int min, int max) {
         return (int) ((Math.random() * (max - min + 1)) + min);

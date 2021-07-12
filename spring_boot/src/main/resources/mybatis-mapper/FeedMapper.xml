@@ -5,6 +5,7 @@
 <mapper namespace="com.koreait.facebook_clone.feed.FeedMapper">
     <resultMap id="FeedDomainMap" type="FeedDomain2"> <!-- FeedDomain2 클래스를 이용하겠당 -->
         <result property="ifeed" column="ifeed"/> <!-- ifeed 컬럼값을 ifeed 멤버필드에 저장 이름 맞춰주면 안적어줘도 됨, 근데 얘는 적어줘야 함..? -->
+        <association property="cmt" column="ifeed" select="selFeedCmt"/> <!-- 1:1 매핑일때 -->
         <collection property="imgList" column="ifeed" javaType="ArrayList" ofType="FeedImgEntity"
                     select="selFeedImgList"/>
         <!-- FeedDomain2 에 있는 imgList 는 컬렉션으로 저장하겠다. ifeed 컬럼을 기준으로. ArrayList 타입으로 저장 FeedImgEntity 타입으로 리스트
@@ -36,10 +37,23 @@
 
     <select id="selFeedList2" resultMap="FeedDomainMap">
         SELECT A.ifeed, A.iuser, A.ctnt, A.location, A.regdt, C.nm AS writer, C.mainProfile
+             , IFNULL(E.cnt, 0) AS favCnt
+            <if test="iuserForFav > 0">
+                , CASE WHEN tff.ifeed IS NULL THEN 0 ELSE 1 END isFav
+            </if>
         FROM t_feed A
         INNER JOIN t_user C ON A.iuser = C.iuser
-        <if test="iuser > 0">
-            AND C.iuser = ${iuser}
+        <if test="iuserForMyFeed > 0">
+            AND C.iuser = ${iuserForMyFeed}
+        </if>
+        LEFT JOIN (
+        SELECT ifeed, COUNT(ifeed) AS cnt FROM t_feed_fav GROUP BY ifeed
+        ) E
+        ON A.ifeed = E.ifeed
+        <if test="iuserForFav > 0">
+            LEFT JOIN t_feed_fav tff
+                on A.ifeed = tff.ifeed
+                       AND tff.iuser = ${iuserForFav}
         </if>
         ORDER BY A.ifeed DESC
         LIMIT #{startIdx}, #{limit}
@@ -48,5 +62,41 @@
     <select id="selFeedImgList" resultType="FeedImgEntity">
         SELECT ifeedImg, ifeed, img FROM t_feed_img
         WHERE ifeed = #{ifeed}
+    </select>
+
+    <!-- 좋아요 작업 -->
+    <insert id="insFeedFav">
+        INSERT INTO t_feed_fav (ifeed, iuser)
+        VALUES (${ifeed}, ${iuser})
+    </insert>
+    <delete id="delFeedFav">
+        DELETE FROM t_feed_fav
+        WHERE ifeed = ${ifeed} AND iuser = ${iuser}
+    </delete>
+
+    <!-- 댓글 작업 -->
+    <insert id="insFeedCmt" useGeneratedKeys="true" keyProperty="icmt,regdt">
+        INSERT INTO t_feed_cmt (iuser, ifeed, cmt)
+        VALUES (${iuser}, ${ifeed}, #{cmt})
+    </insert>
+    
+    <select id="selFeedCmt" resultType="FeedCmtDomain">
+        SELECT A.*, COUNT(A.icmt) AS isMore
+        FROM (
+            SELECT tfc.ifeed, tfc.icmt, tfc.cmt, tfc.regdt, tu.iuser, tu.nm as writer, tu.mainProfile as writerProfile
+            FROM t_feed_cmt tfc
+                INNER JOIN t_user tu
+                    on tfc.iuser = tu.iuser
+            WHERE tfc.ifeed = ${ifeed}
+            ORDER BY tfc.icmt ASC
+            LIMIT 2
+        ) A
+        GROUP BY A.ifeed;
+    </select>
+    <select id="selFeedCmtList" resultType="FeedCmtDomain">
+        SELECT tfc.ifeed, tfc.icmt, tfc.cmt, tfc.regdt, tu.iuser, tu.nm as writer, tu.mainProfile as writerProfile
+        FROM t_feed_cmt tfc INNER JOIN t_user tu on tfc.iuser = tu.iuser
+        WHERE tfc.ifeed = ${ifeed}
+        ORDER BY tfc.icmt ASC;
     </select>
 </mapper>

@@ -4,6 +4,8 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <header th:fragment="header"> <!-- 이름 주기. 나중에 얘만 갖다가 쓸 수 있다. -->
+    <span id="globalConst" sec:authorize="isAuthenticated()"  th:with="auth=${#authentication.getPrincipal().getUser()}"
+          th:attr="data-iuser=${auth.iuser}, data-writer=${auth.nm}, data-writer-profile=${auth.mainProfile}"></span>
     <nav>
         <div class="header__left">
             <!--<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -23,9 +25,9 @@
             <ul class="menus" sec:authorize="isAnonymous()">
                 <li><a th:href="@{/user/login}">로그인</a></li>
             </ul>
-            <ul class="menus" sec:authorize="isAuthenticated()">
+            <ul class="menus" sec:authorize="isAuthenticated()"  th:with="auth=${#authentication.getPrincipal().getUser()}">
                 <li><a th:href="@{/user/profile}">
-                    <span class="span__profile" th:with="auth=${#authentication.getPrincipal().getUser()}">
+                    <span class="span__profile">
                         <!-- th:with 은 jstl 의 c:set 같은 아이-->
                         <!-- authentication 은 스프링에서 제공하는 객체, getPrincipal() 로 UserDetails 를 가져올 수 있음 -->
                         <th:block th:if="${auth.mainProfile != null}">

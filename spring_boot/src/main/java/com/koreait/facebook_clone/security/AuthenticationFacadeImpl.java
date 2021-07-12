@@ -5,8 +5,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.io.PrintStream;
-
 @Component // 컴포넌트를 줬기때문에 빈 등록. 객체화가 됐음
 public class AuthenticationFacadeImpl implements IAuthenticationFacade {
 

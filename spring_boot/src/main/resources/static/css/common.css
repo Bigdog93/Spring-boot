@@ -1,7 +1,10 @@
 * {box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 a { text-decoration: none; color: black; }
-
+.textInput {
+    border: none;
+    background-color: rgba(196, 196, 196, 0.1);
+}
 header {
     z-index: 10;
     background-color: white;
@@ -27,6 +30,7 @@ ul, ol, li {
     margin-top: 80px;
     padding: 30px;
 }
+.userNmCls { font-weight: bold; }
 
 .header__left {
     display: flex;
@@ -68,10 +72,10 @@ ul, ol, li {
 }
 .modal_close_parent { display: flex; justify-content: flex-end; padding: 40px 60px; }
 .modal_close { color: white; font-size: 50px; }
-.profile { border-radius: 50%; }
+.profile { object-fit: cover; border-radius: 50%; }
 .hide { display: none !important; }
 .pointer { cursor: pointer; }
-.w40 { width: 40px; }
+.wh40 { width: 40px; height: 40px; }
 .w200 { width: 200px; }
 .w300 { width: 300px; }
 .no-main-profile {
@@ -94,6 +98,25 @@ ul, ol, li {
 #feedContainer .item .topDiv {display: flex;}
 #feedContainer .item .imgDiv img{height: 620px;}
 #feedContainer .item .itemCtnt {margin-top: 3px; margin-bottom: 3px;}
-#feedContainer .itemProfileCont img {width:32px; border-radius: 50%;}
+#feedContainer .itemProfileCont { margin-right: 5px; }
+#feedContainer .itemProfileCont img { object-fit: cover; width:32px; height: 32px; border-radius: 50%;}
 #feedContainer {width: 620px;}
-section {display: flex; justify-content: center;}
+
+#feedPage {display: flex; justify-content: center;}
+
+#feedContainer .item .favDiv {
+    display: flex; padding: 10px;
+}
+#feedContainer .item .favDiv i {
+    color: #d75271; font-size: 22px;
+}
+
+#feedContainer .item .favDiv .favCntSpan {
+    padding-left: 5px;
+    color: #b1b1b1;
+}
+
+#feedContainer .item .cmtDiv .eachCmtDiv { display: flex; padding: 3px; background-color: rgba(78, 177, 255, 0.13);
+    border-radius: 5px;}
+#feedContainer .regdtDiv { color: darkgray; font-size: 0.8rem;)}
+#feedContainer .item .cmtDiv .moreCmtSpan { color: #b1b1b1; }

@@ -2,18 +2,13 @@ package com.koreait.facebook_clone.user;
 
 import com.koreait.facebook_clone.common.file.MyFileUtils;
 import com.koreait.facebook_clone.common.mailsender.EmailServiceImpl;
-import com.koreait.facebook_clone.common.security.MySecurityUtils;
+import com.koreait.facebook_clone.common.auth.RandomCodeGenerator;
 import com.koreait.facebook_clone.feed.FeedMapper;
 import com.koreait.facebook_clone.feed.model.FeedDTO;
 import com.koreait.facebook_clone.feed.model.FeedDomain2;
 import com.koreait.facebook_clone.security.IAuthenticationFacade;
-import com.koreait.facebook_clone.user.model.UserDomain;
-import com.koreait.facebook_clone.user.model.UserEntity;
-import com.koreait.facebook_clone.user.model.UserProfileEntity;
+import com.koreait.facebook_clone.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,14 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.RecursiveTask;
 
 @Service
 public class UserService {
     @Autowired private UserMapper mapper;
     @Autowired private UserProfileMapper profileMapper;
     @Autowired private UserMapper userMapper;
-    @Autowired private MySecurityUtils securityUtils;
+    @Autowired private RandomCodeGenerator securityUtils;
     @Autowired private EmailServiceImpl emailService;
     @Autowired // @Bean 이 있었기 때문에 가능
     private PasswordEncoder passwordEncoder;
@@ -98,6 +92,11 @@ public class UserService {
         }
     }
 
+    public UserDomain selUserProfile(UserDTO param) {
+        param.setFromIuser(auth.getLoginUserPk());
+        return profileMapper.selUserProfile(param);
+    }
+
     public List<UserProfileEntity> selUserProfileImgs(UserEntity param) {
         return profileMapper.selUserProfileList(param);
     }
@@ -117,7 +116,29 @@ public class UserService {
     }
 
     public List<FeedDomain2> selFeedList2(FeedDTO param) {
-        param.setIuser(auth.getLoginUserPk());
+        if(param.getIuserForMyFeed() == 0) {
+            param.setIuserForMyFeed(auth.getLoginUserPk());
+        }
         return feedMapper.selFeedList2(param);
+    }
+
+    public Map<String, Object> insUserFollow(UserFollowEntity param) {
+        param.setIuserFrom(auth.getLoginUserPk());
+        int test = mapper.insUserFollow(param);
+        Map<String, Object> result = new HashMap<>();
+        result.put("result", test);
+        return result;
+    }
+
+    public Map<String, Object> delUserFollow(UserFollowEntity param) {
+        param.setIuserFrom(auth.getLoginUserPk());
+        int test = mapper.delUserFollow(param);
+        Map<String, Object> result = new HashMap<>();
+        result.put("result", test);
+        if(test != 0) {
+            UserFollowEntity param2 = mapper.selUserFollow(param);
+            result.put("youFollowMe", param2);
+        }
+        return result;
     }
 }

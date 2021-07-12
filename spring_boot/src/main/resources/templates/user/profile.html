@@ -13,37 +13,62 @@
 <!-- https://swiperjs.com/get-started -->
 <th:block layout:fragment="js">
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script defer th:src="@{/js/infiniteScroll.js}"></script>
+    <script defer th:src="@{/js/feed.js}"></script>
     <script defer th:src="@{/js/user/profile.js}"></script>
 </th:block>
 
 <th:block layout:fragment="content"
           th:with="auth=${#authentication.getPrincipal().getUser()}"> <!-- 자식들만 auth 쓸 수 있는 모양 -->
-    <div th:attr="data-main-profile=${auth.mainProfile}">
-        <form th:action="@{profileImg}" method="post" enctype="multipart/form-data">
+    <div id="localConst" th:attr="data-iuser=${profile.iuser}, data-main-profile=${auth.mainProfile}">
+        <form th:if="${auth.iuser eq profile.iuser}" th:action="@{profileImg}" method="post" enctype="multipart/form-data">
             <div>이미지 : <input type="file" name="imgArr" multiple accept="image/*"><input type="submit" value="업로드"></div>
             <!-- type="file" : 파일 인풋 ; multiple : 여러 파일 업로드 가능 ; accept="image/*" 이미지만 받는다. -->
         </form>
 
-        <div id="flexContainer" th:if="${auth.mainProfile != null}">
+        <div id="flexContainer">
             <div>
-                <img class="profile w300 pointer" th:src="@{/pic/profile/{iuser}/{img} (iuser=${auth.iuser}, img=${auth.mainProfile})}">
+                <img th:if="${profile.mainProfile != null}" class="profile w300 pointer" th:src="@{/pic/profile/{iuser}/{img} (iuser=${profile.iuser}, img=${profile.mainProfile})}">
+                <div>
+                    <table>
+                        <tr>
+                            <th>feed</th>
+                            <td th:text="${profile.cntFeed}"></td>
+                            <th>follower</th>
+                            <td id="followerCntTd" th:text="${profile.cntFollower}"></td>
+                            <th>following</th>
+                            <td th:text="${profile.cntFollow}"></td>
+                            <td th:unless="${profile.iuser eq auth.iuser}">
+                                <th:block th:if="${profile.isMeFollowYou eq 1}">
+                                    <input type="button" id="btnFollow" class="instaBtn" data-follow="1" value="팔로우 취소">
+                                </th:block>
+                                <th:block th:unless="${profile.isMeFollowYou eq 1}">
+                                    <th:block th:if="${profile.isYouFollowMe eq 1}">
+                                        <input type="button" id="btnFollow" class="instaBtnEnable" data-follow="0" value="맞팔로우">
+                                    </th:block>
+                                    <th:block th:if="${profile.isYouFollowMe eq 0}">
+                                        <input type="button" id="btnFollow" class="instaBtnEnable" data-follow="0" value="팔로우">
+                                    </th:block>
+                                </th:block>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <table>
                     <tr>
                         <th>email</th>
-                        <td th:text="${auth.email}"></td>
+                        <td th:text="${profile.email}"></td>
                     </tr>
                     <tr>
                         <th>name</th>
-                        <td th:text="${auth.nm}"></td>
+                        <td th:text="${profile.nm}"></td>
                     </tr>
                     <tr>
                         <th>tel</th>
-                        <td th:text="${auth.tel}"></td>
+                        <td th:text="${profile.tel}"></td>
                     </tr>
                     <tr>
                         <th>reg date</th>
-                        <td th:text="${auth.regdt}"></td>
+                        <td th:text="${profile.regdt}"></td>
                     </tr>
                 </table>
             </div>
@@ -56,6 +81,14 @@
             </div>
         </section>
 
+        <div class="modal-follow hide">
+            <div>
+                <div></div>
+                <i id="follow_modal_close" class="modal_close pointer far fa-window-close"></i>
+            </div>
+            <div class="followCont"></div>
+        </div>
+
         <div id="profile_modal" class="modal hide">
             <div class="modal_close_parent"><i id="profile_modal_close" class="modal_close pointer far fa-window-close"></i></div>
             <div>
@@ -67,9 +100,9 @@
                         <div class="swiper-slide" th:each="item : ${profileList}"> <!-- EL식이다..? -->
                             <div>
                                 <div class="profile-img-parent" th:attr="data-iprofile=${item.iprofile}">
-                                    <i class="no-main-profile pointer fas fa-check" th:unless="${item.img == auth.mainProfile}"></i>
+                                    <i class="no-main-profile pointer fas fa-check" th:unless="${item.img == profile.mainProfile}"></i>
                                 </div>
-                                <img th:src="@{/pic/profile/{iuser}/{img}(iuser=${auth.iuser}, img=${item.img})}">
+                                <img th:src="@{/pic/profile/{iuser}/{img}(iuser=${profile.iuser}, img=${item.img})}">
                                 <!-- th:src 를 쓰는 이유.
                                  한 서버에 여러 프로젝트를 돌릴경우, 1차 주소값으로 프로젝트를 구분할때, @{} 를 쓰면 1차주소값을 명시하지 않아도 된다.
                                  # 은 request.getParameter 쓸때..?

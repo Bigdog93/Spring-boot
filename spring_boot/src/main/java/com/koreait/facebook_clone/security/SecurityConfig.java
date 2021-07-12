@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {// 브라우�
 
         security.formLogin() // 로그인 했을때
                 .loginPage("/user/login") // 이 페이지에서 날아온 form action="login" 인 친구를 캐치
-                .usernameParameter("email") // 얘(위아래 두줄까지) 없으면 디폴트는 /login 이고 시큐리티에서 제공하는 로그인 창이 뜬다.
+                .usernameParameter("email") // 얘(위아래 두줄까지) 없으면 디폴트는 /login 이고 시큐리티에서 제공하는 로그인 창이 뜬다. name 값 디폴트도 username, password 다
                 .passwordParameter("pw") // form 태그 안에 name(키값)을 설정
                 .defaultSuccessUrl("/feed/home"); // 로그인 성공하면 일로로
 

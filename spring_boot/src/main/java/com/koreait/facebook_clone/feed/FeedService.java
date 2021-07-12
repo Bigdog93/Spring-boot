@@ -1,7 +1,6 @@
 package com.koreait.facebook_clone.feed;
 
 import com.koreait.facebook_clone.common.file.MyFileUtils;
-import com.koreait.facebook_clone.common.security.MySecurityUtils;
 import com.koreait.facebook_clone.feed.model.*;
 import com.koreait.facebook_clone.security.IAuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +50,26 @@ public class FeedService {
         return mapper.selFeedList();
     }
     public List<FeedDomain2> selFeedList2(FeedDTO param) {
+        param.setIuserForFav(auth.getLoginUserPk());
         return mapper.selFeedList2(param);
+    }
+
+    public int FeedFavProc(FeedFavEntity param, int type) {
+        param.setIuser(auth.getLoginUserPk());
+        if(type == 1) {
+            return mapper.insFeedFav(param);
+        }else if(type == 0) {
+            return mapper.delFeedFav(param);
+        }
+        return 0;
+    }
+
+    public int insFeedCmt(FeedCmtEntity param) {
+        param.setIuser(auth.getLoginUserPk());
+        return mapper.insFeedCmt(param);
+    }
+
+    public List<FeedCmtDomain> selFeedCmtList(FeedCmtEntity param) {
+        return mapper.selFeedCmtList(param);
     }
 }

@@ -52,4 +52,17 @@
             SELECT mainProfile FROM t_user WHERE iuser = ${iuser}
         </selectKey>
     </update>
+
+    <!-- //////////// follow ////////////////// -->
+    <insert id="insUserFollow">
+        INSERT INTO t_user_follow (iuserFrom, iuserTo) VALUES (${iuserFrom}, ${iuserTo})
+    </insert>
+    <delete id="delUserFollow">
+        DELETE FROM t_user_follow WHERE iuserFrom = ${iuserFrom} AND iuserTo = ${iuserTo}
+    </delete>
+    <select id="selUserFollow" resultType="userFollowEntity">
+        SELECT * FROM t_user_follow
+        WHERE iuserTo = ${iuserFrom}
+        AND iuserFrom = ${iuserTo}
+    </select>
 </mapper>
