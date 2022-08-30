@@ -7,6 +7,7 @@ import com.koreait.facebook_clone.feed.FeedMapper;
 import com.koreait.facebook_clone.feed.model.FeedDTO;
 import com.koreait.facebook_clone.feed.model.FeedDomain2;
 import com.koreait.facebook_clone.security.IAuthenticationFacade;
+import com.koreait.facebook_clone.security.UserDetailsServiceImpl;
 import com.koreait.facebook_clone.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +30,7 @@ public class UserService {
     @Autowired private MyFileUtils fileUtils;
     @Autowired private IAuthenticationFacade auth;
     @Autowired private FeedMapper feedMapper;
+    @Autowired private UserDetailsServiceImpl userDetailsService;
 
     public int join(UserEntity param) {
         String authCd = securityUtils.getRandomCode(5);
@@ -37,7 +39,8 @@ public class UserService {
         String hashedPw = passwordEncoder.encode(param.getPw());
         param.setPw(hashedPw);
         param.setAuthCd(authCd);
-        int result = mapper.join(param);
+        param.setProvider("local");
+        int result = userDetailsService.join(param);
 
         if(result == 1) {
             String subject = "[얼굴책] 인증메일입니다.";
@@ -67,7 +70,7 @@ public class UserService {
     }*/
 
     public void profileImg(MultipartFile[] imgArr) {
-        UserDomain loginUser = auth.getLoginUser();
+        UserEntity loginUser = auth.getLoginUser();
         int iuser = loginUser.getIuser(); // 로그인한 사람의 pk 값
         String target = "profile/" + iuser; // 저장되는 경로
 
@@ -102,7 +105,7 @@ public class UserService {
     }
 
     public Map<String, Object> updUserMainProfile(UserProfileEntity param) {
-        UserDomain loginUser = auth.getLoginUser();
+        UserEntity loginUser = auth.getLoginUser();
 
         param.setIuser(loginUser.getIuser());
         int result = mapper.updUserMainProfile(param);
@@ -140,5 +143,15 @@ public class UserService {
             result.put("youFollowMe", param2);
         }
         return result;
+    }
+
+    public List<UserDomain> selUserFollowList(UserFollowEntity param) {
+        param.setIuserFrom(auth.getLoginUserPk());
+        return mapper.selUserFollowList(param);
+    }
+
+    public List<UserDomain> selUserFollowerList(UserFollowEntity param) {
+        param.setIuserFrom(auth.getLoginUserPk());
+        return mapper.selUserFollowerList(param);
     }
 }

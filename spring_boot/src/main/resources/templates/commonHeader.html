@@ -31,7 +31,7 @@
                         <!-- th:with 은 jstl 의 c:set 같은 아이-->
                         <!-- authentication 은 스프링에서 제공하는 객체, getPrincipal() 로 UserDetails 를 가져올 수 있음 -->
                         <th:block th:if="${auth.mainProfile != null}">
-                            <img class="profile w40" th:src="@{/pic/profile/{iuser}/{mainProfile}(iuser=${auth.iuser}, mainProfile=${auth.mainProfile})}">
+                            <img class="profile wh40" th:src="@{/pic/profile/{iuser}/{mainProfile}(iuser=${auth.iuser}, mainProfile=${auth.mainProfile})}">
                         </th:block>
                         <!-- th:block 은 태그 없이 쓰고 싶을때..? -->
                         <span th:text="${auth.nm}"></span>

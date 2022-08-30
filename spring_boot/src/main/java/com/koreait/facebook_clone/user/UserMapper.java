@@ -6,6 +6,8 @@ import com.koreait.facebook_clone.user.model.UserFollowEntity;
 import com.koreait.facebook_clone.user.model.UserProfileEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     int join(UserEntity param);
@@ -15,6 +17,8 @@ public interface UserMapper {
     int updUserMainProfile(UserProfileEntity param);
 
     int insUserFollow(UserFollowEntity param);
-    int delUserFollow(UserFollowEntity param);
     UserFollowEntity selUserFollow(UserFollowEntity param);
+    List<UserDomain> selUserFollowList(UserFollowEntity param);
+    List<UserDomain> selUserFollowerList(UserFollowEntity param);
+    int delUserFollow(UserFollowEntity param);
 }

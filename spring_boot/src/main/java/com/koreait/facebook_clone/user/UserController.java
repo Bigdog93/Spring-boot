@@ -3,11 +3,8 @@ package com.koreait.facebook_clone.user;
 import com.koreait.facebook_clone.common.MyConst;
 import com.koreait.facebook_clone.feed.model.FeedDTO;
 import com.koreait.facebook_clone.feed.model.FeedDomain2;
-import com.koreait.facebook_clone.security.UserDetailsImpl;
-import com.koreait.facebook_clone.user.model.UserDTO;
-import com.koreait.facebook_clone.user.model.UserEntity;
-import com.koreait.facebook_clone.user.model.UserFollowEntity;
-import com.koreait.facebook_clone.user.model.UserProfileEntity;
+import com.koreait.facebook_clone.security.model.CustomUserPrincipal;
+import com.koreait.facebook_clone.user.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -54,7 +51,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public void profile(Model model, UserEntity param, UserDTO param2, @AuthenticationPrincipal UserDetailsImpl userDetails) { // 컨트롤러단에서 시큐리티에서 로그인 정보 얻어오는 방법
+    public void profile(Model model, UserEntity param, UserDTO param2, @AuthenticationPrincipal CustomUserPrincipal userDetails) { // 컨트롤러단에서 시큐리티에서 로그인 정보 얻어오는 방법
         if(param.getIuser() == 0) {
             param.setIuser(userDetails.getUser().getIuser());
         }
@@ -92,5 +89,17 @@ public class UserController {
     @DeleteMapping("/follow")
     public Map<String, Object> undoFollow(UserFollowEntity param) {
         return service.delUserFollow(param);
+    }
+
+    @ResponseBody
+    @GetMapping("/getFollowList")
+    public List<UserDomain> getFollowList(UserFollowEntity param) {
+        return service.selUserFollowList(param);
+    }
+
+    @ResponseBody
+    @GetMapping("/getFollowerList")
+    public List<UserDomain> getFollowerList(UserFollowEntity param) {
+        return service.selUserFollowerList(param);
     }
 }

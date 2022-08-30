@@ -3,11 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.koreait.facebook_clone.user.UserMapper">
-    <insert id="join">
+    <insert id="join" useGeneratedKeys="true" keyProperty="iuser">
         INSERT INTO t_user
-        (email, pw, nm, tel, authCd)
+        (email, pw, nm, tel, authCd, provider)
         VALUES
-        (#{email}, #{pw}, #{nm}, #{tel}, #{authCd})
+        (#{email}, #{pw}, #{nm}, #{tel}, #{authCd}, #{provider})
     </insert>
     <update id="auth">
         UPDATE t_user
@@ -37,7 +37,9 @@
     <select id="selUser" resultType="UserDomain">
         SELECT *
         FROM t_user
-        WHERE email = #{email} AND authCd IS NULL
+        WHERE email = #{email}
+          AND provider = #{provider}
+          AND authCd IS NULL
     </select>
 
     <update id="updUserMainProfile">
@@ -64,5 +66,29 @@
         SELECT * FROM t_user_follow
         WHERE iuserTo = ${iuserFrom}
         AND iuserFrom = ${iuserTo}
+    </select>
+
+    <select id="selUserFollowList" resultType="UserDomain">
+        SELECT B.iuser, B.nm, B.mainProfile
+            , IF(C.iuserFrom IS NULL, 0, 1) AS isMeFollowYou
+        FROM t_user_follow A
+        INNER JOIN t_user B
+            ON A.iuserTo = B.iuser
+        LEFT JOIN t_user_follow C
+            ON C.iuserFrom = ${iuserFrom}
+            AND C.iuserTo = A.iuserTo
+        WHERE A.iuserFrom = ${iuserTo}
+    </select>
+
+    <select id="selUserFollowerList" resultType="UserDomain">
+        SELECT B.iuser, B.nm, B.mainProfile
+            , IF(C.iuserFrom IS NULL, 0, 1) AS isMeFollowYou
+        FROM t_user_follow A
+        INNER JOIN t_user B
+            ON A.iuserFrom = B.iuser
+        LEFT JOIN t_user_follow C
+            ON C.iuserFrom = ${iuserFrom}
+            AND C.iuserTo = A.iuserFrom
+        WHERE A.iuserTo = ${iuserTo};
     </select>
 </mapper>

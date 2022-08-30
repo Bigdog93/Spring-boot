@@ -33,10 +33,10 @@
                         <tr>
                             <th>feed</th>
                             <td th:text="${profile.cntFeed}"></td>
-                            <th>follower</th>
-                            <td id="followerCntTd" th:text="${profile.cntFollower}"></td>
-                            <th>following</th>
-                            <td th:text="${profile.cntFollow}"></td>
+                            <th class="pointer follower">follower</th>
+                            <td class="pointer follower" id="followerCntTd" th:text="${profile.cntFollower}"></td>
+                            <th class="pointer following">following</th>
+                            <td class="pointer following" th:text="${profile.cntFollow}"></td>
                             <td th:unless="${profile.iuser eq auth.iuser}">
                                 <th:block th:if="${profile.isMeFollowYou eq 1}">
                                     <input type="button" id="btnFollow" class="instaBtn" data-follow="1" value="팔로우 취소">
@@ -81,12 +81,16 @@
             </div>
         </section>
 
-        <div class="modal-follow hide">
+        <div id="follow_modal" class="hide">
             <div>
-                <div></div>
-                <i id="follow_modal_close" class="modal_close pointer far fa-window-close"></i>
+                <div id="follow_modal_container">
+                    <div class="follow_modal_top">
+                        <div id="follow_modal_title">follow</div>
+                        <i id="follow_modal_close" class="follow_modal_close pointer far fa-window-close"></i>
+                    </div>
+                    <div class="followCont"></div>
+                </div>
             </div>
-            <div class="followCont"></div>
         </div>
 
         <div id="profile_modal" class="modal hide">

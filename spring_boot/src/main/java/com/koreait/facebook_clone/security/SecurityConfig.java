@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {// 브라우�
 
     @Autowired
     private UserDetailsService userDetails; // 세션처럼 브라우저 킬때마다.
+    @Autowired private CustomOAuth2UserService customOauth2UserService;
 
     @Bean // 메소드에 빈 등록하면 리턴하는 값이 빈 등록이 된다. 외부(라이브러리 등)에서 만든 애들은 이렇게 빈 등록 할 수 있다.
     public PasswordEncoder passwordEncoder() { // PasswordEncoder(인터페이스) 타입의 객체를 리턴하는 메소드(리턴값이 빈 등록)
@@ -52,7 +53,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {// 브라우�
                 .loginPage("/user/login") // 이 페이지에서 날아온 form action="login" 인 친구를 캐치
                 .usernameParameter("email") // 얘(위아래 두줄까지) 없으면 디폴트는 /login 이고 시큐리티에서 제공하는 로그인 창이 뜬다. name 값 디폴트도 username, password 다
                 .passwordParameter("pw") // form 태그 안에 name(키값)을 설정
-                .defaultSuccessUrl("/feed/home"); // 로그인 성공하면 일로로
+                .defaultSuccessUrl("/feed/home") // 로그인 성공하면 일로로
+                .failureUrl("/user/login?error");
+
+        security.oauth2Login()
+                .loginPage("/user/login")
+                .defaultSuccessUrl("/feed/home")
+                .failureUrl("/user/login")
+                .userInfoEndpoint() //OAuth 2 로그인 성공 이후 사용자 정보를 가져올 때의 설정들을 담당합니다.
+                .userService(customOauth2UserService);
 
         security.logout() // 로그아웃 했을 떄
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) // 얘 주소로 들어왔을 때
